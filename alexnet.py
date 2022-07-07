@@ -19,25 +19,25 @@ class AlexNet:
             inputShape = (depth, height, width)
         
         model.add(Conv2D(96, (11,11), strides = (4,4), input_shape = inputShape, padding = "same"))
-        model.add(Activation("Relu"))
+        model.add(Activation("relu"))
         model.add(BatchNormalization())
         model.add(MaxPooling2D(pool_size = (3,3), strides = (2,2)))
 
         model.add(Conv2D(256, (5,5), padding = "same"))
-        model.add(Activation("Relu"))
+        model.add(Activation("relu"))
         model.add(BatchNormalization())
         model.add(MaxPooling2D(pool_size = (3,3), strides = (2,2)))
 
         model.add(Conv2D(384, (3,3), padding = "same"))
-        model.add(Activation("Relu"))
+        model.add(Activation("relu"))
         model.add(BatchNormalization())
 
         model.add(Conv2D(384, (3,3), padding = "same"))
-        model.add(Activation("Relu"))
+        model.add(Activation("relu"))
         model.add(BatchNormalization())
 
         model.add(Conv2D(256, (3,3), padding = "same"))
-        model.add(Activation("Relu"))
+        model.add(Activation("relu"))
         model.add(BatchNormalization())
 
         model.add(MaxPooling2D(pool_size = (3,3), strides = (2,2)))
@@ -45,10 +45,10 @@ class AlexNet:
         model.add(Flatten())
         model.add(Dropout(0.5))
         model.add(Dense(4096))
-        model.add(Activation("Relu"))
+        model.add(Activation("relu"))
         model.add(Dropout(0.5))
         model.add(Dense(4096))
-        model.add(Activation("Relu"))
+        model.add(Activation("relu"))
         model.add(Dense(classes))
         model.add(Activation("Softmax"))
 

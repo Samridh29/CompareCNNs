@@ -6,7 +6,7 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.preprocessing.image import img_to_array
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.model_selection import train_test_split
-import alexnet as AlexNet
+from alexnet import AlexNet 
 # import LeNet 
 # import VGG
 from tensorflow.keras.datasets import cifar10
@@ -18,6 +18,7 @@ import random
 import pickle
 import cv2
 import os
+
 
 EPOCHS = 150
 INIT_LR = 1e-3
@@ -33,14 +34,12 @@ random.shuffle(imagepaths)
 
 (x_train, y_train), (x_test, y_test) = cifar10.load_data()
 for imgs in x_train:
-	img = cv2.imread(imgs)
-	imgs = cv2.resize(img, (IMG_DIMS[1], IMG_DIMS[0]))
+	imgs = cv2.resize(imgs, (IMG_DIMS[1], IMG_DIMS[0]))
 	imgs = img_to_array(imgs)
 
 
 for imgs in x_test:
-	img = cv2.imread(imgs)
-	imgs = cv2.resize(img, (IMG_DIMS[1], IMG_DIMS[0]))
+	imgs = cv2.resize(imgs, (IMG_DIMS[1], IMG_DIMS[0]))
 	imgs = img_to_array(imgs)
 
 
@@ -57,13 +56,13 @@ aug = ImageDataGenerator(rotation_range = 25, width_shift_range = 0.1, height_sh
                         shear_range = 0.2, zoom_range = 0.2, horizontal_flip = True, fill_mode = "nearest")
 
 print("Compiling model...")
-alexnet_model = AlexNet.build(width = IMG_DIMS[1], height = IMG_DIMS[0], depth = IMG_DIMS[2], classes = len(set(lb.classes_)))
+alexnet_model = AlexNet.build_alexnet(width = IMG_DIMS[1], height = IMG_DIMS[0], depth = IMG_DIMS[2], classes = len(set(lb.classes_)))
 
 opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
 alexnet_model.compile(loss="categorical_crossentropy", optimizer=opt, metrics=["accuracy"])
 
 H = alexnet_model.fit(
-	x=aug.flow(x_train, y_train, batch_size=BS), validation_data=(testX, testY), steps_per_epoch=len(x_train) // BS,
+	x=aug.flow(x_train, y_train, batch_size=BS), validation_data=(x_test, y_test), steps_per_epoch=len(x_train) // BS,
 	            epochs=EPOCHS, verbose=1)
 
 print("serializing network...")
