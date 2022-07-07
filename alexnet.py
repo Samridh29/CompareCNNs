@@ -1,4 +1,4 @@
-from tensorflow.keras.model import Sequential
+from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D
 from tensorflow.keras.layers import BatchNormalization
 from tensorflow.keras.layers import MaxPooling2D
